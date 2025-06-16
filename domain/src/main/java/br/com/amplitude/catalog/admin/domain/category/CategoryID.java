@@ -1,4 +1,4 @@
-package br.com.amplitude.catalog.admin.domain.catgory;
+package br.com.amplitude.catalog.admin.domain.category;
 
 import br.com.amplitude.catalog.admin.domain.Identifier;
 

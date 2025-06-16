@@ -1,6 +1,6 @@
 package br.com.amplitude.catalog.admin.application;
 
-import br.com.amplitude.catalog.admin.domain.catgory.Category;
+import br.com.amplitude.catalog.admin.domain.category.Category;
 
 public class UseCase {
 
