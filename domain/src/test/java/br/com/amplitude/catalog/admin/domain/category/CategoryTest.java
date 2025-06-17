@@ -132,4 +132,74 @@ public class CategoryTest {
         Assertions.assertNotNull(actualCategory.getUpdatedAt());
         Assertions.assertNotNull(actualCategory.getDeletedAt());
     }
+
+    @Test
+    public void shouldReturnCategoryDeactivatedWhenCalledDeactivate() throws InterruptedException {
+        final var expectedName = "Movies";
+        final var expectedDescription = "The category with the best movies";
+        final var expectedIsActive = false;
+
+        final var aCategory = Category.newCategory(expectedName, expectedDescription, true);
+
+        Assertions.assertDoesNotThrow(() -> aCategory.validate(new ThrowsValidationHandler()));
+
+        final var updatedAtBefore = aCategory.getUpdatedAt();
+
+        Assertions.assertNotNull(aCategory);
+        Assertions.assertNotNull(aCategory.getId());
+        Assertions.assertEquals(expectedName, aCategory.getName());
+        Assertions.assertEquals(expectedDescription, aCategory.getDescription());
+        Assertions.assertTrue(aCategory.isActive());
+        Assertions.assertNotNull(aCategory.getCreatedAt());
+        Assertions.assertNotNull(aCategory.getUpdatedAt());
+        Assertions.assertNull(aCategory.getDeletedAt());
+
+        Thread.sleep(100); // Ensure updatedAt is different
+        final var actualCategory = aCategory.deactivate();
+
+        Assertions.assertNotNull(actualCategory);
+        Assertions.assertNotNull(actualCategory.getId());
+        Assertions.assertEquals(expectedName, actualCategory.getName());
+        Assertions.assertEquals(expectedDescription, actualCategory.getDescription());
+        Assertions.assertEquals(expectedIsActive, aCategory.isActive());
+        Assertions.assertNotNull(actualCategory.getCreatedAt());
+        Assertions.assertNotNull(actualCategory.getUpdatedAt());
+        Assertions.assertTrue(actualCategory.getUpdatedAt().isAfter(updatedAtBefore));
+        Assertions.assertNotNull(actualCategory.getDeletedAt());
+    }
+
+    @Test
+    public void shouldReturnCategoryActivatedWhenCallActivate() throws InterruptedException {
+        final var expectedName = "Movies";
+        final var expectedDescription = "The category with the best movies";
+        final var expectedIsActive = true;
+
+        final var aCategory = Category.newCategory(expectedName, expectedDescription, false);
+
+        Assertions.assertDoesNotThrow(() -> aCategory.validate(new ThrowsValidationHandler()));
+
+        final var updatedAtBefore = aCategory.getUpdatedAt();
+
+        Assertions.assertNotNull(aCategory);
+        Assertions.assertNotNull(aCategory.getId());
+        Assertions.assertEquals(expectedName, aCategory.getName());
+        Assertions.assertEquals(expectedDescription, aCategory.getDescription());
+        Assertions.assertFalse(aCategory.isActive());
+        Assertions.assertNotNull(aCategory.getCreatedAt());
+        Assertions.assertNotNull(aCategory.getUpdatedAt());
+        Assertions.assertNotNull(aCategory.getDeletedAt());
+
+        Thread.sleep(100); // Ensure updatedAt is different
+        final var actualCategory = aCategory.activate();
+
+        Assertions.assertNotNull(actualCategory);
+        Assertions.assertNotNull(actualCategory.getId());
+        Assertions.assertEquals(expectedName, actualCategory.getName());
+        Assertions.assertEquals(expectedDescription, actualCategory.getDescription());
+        Assertions.assertEquals(expectedIsActive, aCategory.isActive());
+        Assertions.assertNotNull(actualCategory.getCreatedAt());
+        Assertions.assertNotNull(actualCategory.getUpdatedAt());
+        Assertions.assertTrue(actualCategory.getUpdatedAt().isAfter(updatedAtBefore));
+        Assertions.assertNull(actualCategory.getDeletedAt());
+    }
 }
