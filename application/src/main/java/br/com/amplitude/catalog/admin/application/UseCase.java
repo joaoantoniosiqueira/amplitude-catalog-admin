@@ -1,10 +1,6 @@
 package br.com.amplitude.catalog.admin.application;
 
-import br.com.amplitude.catalog.admin.domain.category.Category;
+public abstract class UseCase<IN, OUT> {
 
-public class UseCase {
-
-    public Category execute() {
-        return Category.newCategory("Movies", "The category with the best movies", true);
-    }
+    public abstract OUT execute(IN anIn);
 }
